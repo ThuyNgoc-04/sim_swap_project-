@@ -1,7 +1,6 @@
 import socket
 import time
 
-# Cấu hình địa chỉ và cổng của Ingestion Module (UDP Server)
 SERVER_IP = "127.0.0.1"
 SERVER_PORT = 1813
 
@@ -14,7 +13,6 @@ def create_radius_accouting_packet(msisdn: str, ip_address: str, status: str) ->
     return packet_content.encode('utf-8')
 
 def run_radius_client():
-    # Khởi tạo UDP socket (Sử dụng AF_INET và SOCK_DGRAM cho UDP)
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     print(f"[RADIUS CLIENT] Đã khởi động. Chuẩn bị bắn bản tin tới {SERVER_IP}:{SERVER_PORT}...")
     sim_sessions = [
