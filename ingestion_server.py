@@ -31,7 +31,6 @@ def parse_radius_packet(payload: str):
 def run_ingestion_module():
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     
-    # Khởi tạo processor xử lý nghiệp vụ và quản lý Redis
     processor = SimSwapProcessor()
 
     try:
@@ -39,14 +38,11 @@ def run_ingestion_module():
         logging.info(f"[INGESTION MODULE] Đã khởi động. Đang lắng nghe bản tin RADIUS Accounting tại cổng UDP {SERVER_PORT}...")
         
         while True:
-            # Nhận gói tin UDP thô từ Client
             data_bytes, client_address = server_socket.recvfrom(1024)
             plaintext_message = data_bytes.decode('utf-8')
             
-            # 1. Log xác nhận đã nhận bản tin
             logging.info(f"[NHẬN THÀNH CÔNG] Nguồn: {client_address} | Payload: {plaintext_message}")
             
-            # 2. Bóc tách thông tin và chuyển giao toàn bộ cho Processor xử lý nghiệp vụ & Redis
             msisdn, ip, status = parse_radius_packet(plaintext_message)
             
             if msisdn and ip and status and processor:
